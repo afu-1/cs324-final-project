@@ -56,7 +56,7 @@ void setup(){
 void draw(){
   background(0);
   
-  //displays the scores sheet - Annie
+  //displays the scores sheet (feel free to comment out)- Annie
   score_sheet.display();
   
   //displays all of the colors of the sprite (feel free to remove) - Annie
