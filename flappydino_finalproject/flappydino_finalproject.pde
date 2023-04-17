@@ -9,7 +9,7 @@ HashMap<String, Integer> color_values = new HashMap<String, Integer> ();
 
 PImage sprite;
 Table scores;
-PFont game_font;
+PFont score_font;
 
 void setup(){
   //feel free to change
@@ -32,29 +32,27 @@ void setup(){
   }
   
   //sets score font and text - Annie
-  game_font = createFont("Butterbean.otf", 30);
-  textFont(game_font);
+  score_font = createFont("Butterbean.otf", 30);
+  textFont(score_font);
   
   //scores sheet - Annie
   scores = new Table();
   scores.addColumn("name", Table.STRING);
   scores.addColumn("score", Table.INT);
   
-  //will change with input values instead of just random test values - Annie
-  for(int i = 0; i < 5; i++){
-    TableRow newRow = scores.addRow();
-    newRow.setString("name", "test");
-    newRow.setInt("score", i * 300 * -1); //note to self: remember to multiply score by -1 to reverse the order in greatest to least
-  }
-  
   saveTable(scores, "scores.csv"); //creates new table
   
-  scores.sort("score"); //sorts them from least to greatest in value (greatest magnitude to least magnitude)
-  score_sheet = new Scores(scores); //sends new scores into scores class
+  //initialize classes
+  score_sheet = new Scores(scores);
 }
 
 void draw(){
   background(0);
+  
+  //sets scores using score class - Annie (will remove this when input data is available)
+  for (int i = 0; i < 5; i++){
+    score_sheet.set_score(str(i), i * 300);
+  }
   
   //displays the scores sheet (feel free to comment out)- Annie
   score_sheet.display();
