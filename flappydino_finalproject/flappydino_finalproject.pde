@@ -1,4 +1,4 @@
-import java.util.Map;
+import java.util.Map; //for hashmap
 
 Dino dinoComp;
 PImage dino;
@@ -71,18 +71,19 @@ void setup() {
     String blue = c.getString("B");
 
     color_values.put(key_input, color(int(red), int(green), int(blue)));
-    dino = loadImage("body.png");
-    wing = loadImage("wings.png");
-    tail = loadImage("tail.png");
-    dinoComp = new Dino(100, 500, 2);
-    dinoBody = new SideJumper();
-    dinoBody.image = loadImage("body.png");
-    dinoBody.position = new PVector(400, ground);
-    dinoBody.direction = 1;
-    dinoBody.velocity = new PVector(0, 0);
-    dinoBody.jumpSpeed = 10;
-    dinoBody.walkSpeed = 4;
   }
+  
+  dino = loadImage("body.png");
+  wing = loadImage("wings.png");
+  tail = loadImage("tail.png");
+  dinoComp = new Dino(100, 500, 2);
+  dinoBody = new SideJumper();
+  dinoBody.image = loadImage("body.png");
+  dinoBody.position = new PVector(400, ground);
+  dinoBody.direction = 1;
+  dinoBody.velocity = new PVector(0, 0);
+  dinoBody.jumpSpeed = 10;
+  dinoBody.walkSpeed = 4;
 
   //sets score font and text - Annie
   score_font = createFont("Butterbean.otf", 30);
@@ -249,10 +250,14 @@ void keyPressed() {
     t.pauseTime();
   }
   else if (key == '\n') { //restart command
+    //println(t.time); //final time
+    //println(g.inputStr); //input string
+    
+    //saves the score into csv file
+    score_sheet.set_score(g.inputStr, t.time);
     m.endOn = true; // manually end the game
-    // Annie can save the timer and name here
-    println(t.time); //final time
-    println(g.inputStr); //input string
+    m.mainMenu(); //display game over sign
+    score_sheet.display(); //displays score sheet on top of main menu
   }
 }
 

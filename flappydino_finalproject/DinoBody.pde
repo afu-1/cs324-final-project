@@ -1,3 +1,4 @@
+//Alli? Ally? (idk how to spell sorry)
 class DinoBody {
   color c; // provides the color of the bug body
   float xpos; // provides the x coordinate position
