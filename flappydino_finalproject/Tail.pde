@@ -1,3 +1,4 @@
+//Ally? Alli?
 class Tail {
   float xpos; // provides the x coordinate position
   float ypos; // provides the y coordinate position
