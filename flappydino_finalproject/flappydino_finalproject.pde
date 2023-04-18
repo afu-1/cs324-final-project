@@ -246,7 +246,7 @@ void keyPressed() {
   else if (key == ' ') { // jump command
     up = -1;
   }
-  else if (key == 'p') { //pause command
+  else if (key == 'p') { //pause command t.pauseTime() sets t.pause =  true 
     t.pauseTime();
   }
   else if (key == '\n') { //restart command
