@@ -30,4 +30,5 @@ class Dino {
     swiper.bounce(1, 1);
     swiper.display();
   }
+
 }
