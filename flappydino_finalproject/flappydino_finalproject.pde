@@ -1,34 +1,11 @@
 import java.util.Map; //for hashmap
 
-Dino dinoComp;
+Dino player;
 PImage dino;
 PImage wing;
 PImage tail;
 float start = 0;
 
-class SideJumper
-{
-  PImage image;
-  PVector position;
-  float direction;
-  PVector velocity;
-  float jumpSpeed;
-  float walkSpeed;
-}
-
-// GLOBAL VARIABLES
-
-SideJumper dinoBody;
-float left;
-float right;
-float up;
-float down;
-
-// half a pixel per frame gravity.
-float gravity = .5;
-
-// Y coordinate of ground for collision
-float ground = 700;
 
 //classes
 Scores score_sheet;
@@ -72,18 +49,11 @@ void setup() {
 
     color_values.put(key_input, color(int(red), int(green), int(blue)));
   }
-  
+
   dino = loadImage("body.png");
   wing = loadImage("wings.png");
   tail = loadImage("tail.png");
-  dinoComp = new Dino(100, 500, 2);
-  dinoBody = new SideJumper();
-  dinoBody.image = loadImage("body.png");
-  dinoBody.position = new PVector(400, ground);
-  dinoBody.direction = 1;
-  dinoBody.velocity = new PVector(0, 0);
-  dinoBody.jumpSpeed = 10;
-  dinoBody.walkSpeed = 4;
+  player = new Dino(100, 500, 2, 50);
 
   //sets score font and text - Annie
   score_font = createFont("Butterbean.otf", 30);
@@ -131,17 +101,17 @@ void setup() {
 void draw() {
   // Lighting and background
   background(0);
-  
+
   if (m.mainOn) {
     m.mainMenu();
-    text(g.inputStr,500,500);
+    text(g.inputStr, 500, 500);
     return;
   }
   if (m.endOn) {
     m.mainMenu();
     return;
   }
-  
+
   t.display();
 
   // Display all particles
@@ -171,11 +141,10 @@ void draw() {
       carArray[i].respawn(x, y, vx, vy, scale);
     }
   }
-  if (start == 1) {
-    updateDinoBody();
-    dinoComp.FlyForward();
-  }
+  player.FlyForward();
+  //checkHealth(player, );
 }
+
 
 //sets scores using score class - Annie (will remove this when input data is available)
 //for (int i = 0; i < 5; i++){
@@ -191,69 +160,58 @@ void draw() {
 
 /*
 void mousePressed() {
-  start = 1;
-  //once the mouse is pressed at the beginning (which you had to do anyways because that's the only way the character will start jumping) then this variable changes, indicating the game can begin
-}
-*/
+ start = 1;
+ //once the mouse is pressed at the beginning (which you had to do anyways because that's the only way the character will start jumping) then this variable changes, indicating the game can begin
+ }
+ */
 
-void updateDinoBody()
-{
-  // Only apply gravity if above ground (since y positive is down we use < ground)
-  if (dinoBody.position.y < ground)
-  {
-    dinoBody.velocity.y += gravity;
-  } else
-  {
-    dinoBody.velocity.y = 0;
+boolean overEnemy(float eneX, float eneY, float eneR, float playerX, float playerY, float playerH, float playerW) {
+    float testX = eneX;
+    float testY = eneY;
+
+    // which edge is closest?
+    if (eneX < playerX)         testX = playerX;      // test left edge
+    else if (eneX > playerX+playerW) testX = playerX+playerW;   // right edge
+    if (eneY < playerY)         testY = playerY;      // top edge
+    else if (eneY > playerY+playerH) testY = playerY+playerH;   // bottom edge
+
+    // get distance from closest edges
+    float distX = eneX-testX;
+    float distY = eneY-testY;
+    float distance = sqrt( (distX*distX) + (distY*distY) );
+
+    // if the distance is less than the radius, collision!
+    if (distance <= eneR) {
+      return true;
+    }
+    return false;
   }
 
-  // If on the ground and "jump" key is pressed set my upward velocity to the jump speed!
-  if (dinoBody.position.y >= ground && up != 0)
-  {
-    dinoBody.velocity.y = -dinoBody.jumpSpeed;
+  void checkHealth(Dino _player, Car e) {
+    if (overEnemy(e.r.x, e.r.y, e.carWidth, _player.x, _player.y, _player.r, _player.r)) {
+      print("game over");
+      //lives -= 1;
+    }
   }
 
-  // We check the nextPosition before actually setting the position so we can
-  // not move the dinoBody if he's colliding.
-  PVector nextPosition = new PVector(dinoBody.position.x, dinoBody.position.y);
-  nextPosition.add(dinoBody.velocity);
 
-  // Check collision with edge of screen and don't move if at the edge
-  float offset = 0;
-  if (nextPosition.x > offset && nextPosition.x < (width - offset))
-  {
-    dinoBody.position.x = nextPosition.x;
-  }
-  if (nextPosition.y > offset && nextPosition.y < (height - offset))
-  {
-    dinoBody.position.y = nextPosition.y;
-  }
-
-  pushMatrix();
-
-  translate(dinoBody.position.x, dinoBody.position.y);
-
-
-  imageMode(CENTER);
-  image(dinoBody.image, 0, 0);
-
-  popMatrix();
-}
 
 void keyPressed() {
   if (m.mainOn) {
     g.keyPressed(); // only get string input when the main screen is on
-  }
-  else if (key == ' ') { // jump command
-    up = -1;
-  }
-  else if (key == 'p') { //pause command t.pauseTime() sets t.pause =  true 
+  } else if (key == CODED) {
+    if (keyCode == UP) {
+      player.up();
+    }
+    if (keyCode == DOWN) {
+      player.down();
+    }
+  } else if (key == 'p') { //pause command t.pauseTime() sets t.pause =  true
     t.pauseTime();
-  }
-  else if (key == '\n') { //restart command
+  } else if (key == '\n') { //restart command
     //println(t.time); //final time
     //println(g.inputStr); //input string
-    
+
     //saves the score into csv file
     score_sheet.set_score(g.inputStr, t.time);
     m.endOn = true; // manually end the game
@@ -262,21 +220,15 @@ void keyPressed() {
   }
 }
 
-void keyReleased()
-{
-  if (key == ' ') {
-    up = 0;
-  }
-}
 
 void mousePressed() {
-  for (int i = 0; i < 6; i++){
+  for (int i = 0; i < 6; i++) {
     Button b = m.buttons.get(i);
-      if (b.isOver()) {
-        println(i);
-        m.mainOn = false;
-        t.startTime();
-        start = 1;
-      }
+    if (b.isOver()) {
+      println(i);
+      m.mainOn = false;
+      t.startTime();
+      start = 1;
+    }
   }
 }
