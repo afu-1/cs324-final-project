@@ -57,37 +57,4 @@ void draw(){
   //displays the scores sheet (feel free to comment out)- Annie
   score_sheet.display();
   
-  //displays all of the colors of the sprite (feel free to remove) - Annie
-  //red
-  tint(color_values.get("red"));
-  image(sprite, 0, 0);
-  
-  //orange
-  tint(color_values.get("orange"));
-  image(sprite, 150, 0);
-  
-  //yellow
-  tint(color_values.get("yellow"));
-  image(sprite, 300, 0);
-  
-  //green
-  tint(color_values.get("green"));
-  image(sprite, 0, 150);
-
-  //light blue
-  tint(color_values.get("light_blue"));
-  image(sprite, 150, 150);
-  
-  //dark blue
-  tint(color_values.get("dark_blue"));
-  image(sprite, 300, 150);
-  
-  //purple
-  tint(color_values.get("purple"));
-  image(sprite, 0, 300);
-  
-  //white
-  tint(color_values.get("white"));
-  image(sprite, 300, 300);
-  
 }
