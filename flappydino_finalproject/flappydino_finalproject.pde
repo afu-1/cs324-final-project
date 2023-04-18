@@ -130,19 +130,18 @@ void setup() {
 void draw() {
   // Lighting and background
   background(0);
-  
   if (m.mainOn) {
     m.mainMenu();
-    text(g.inputStr,500,500);
+    textSize(16);
+    text("Please enter a character name: " + g.inputStr,50,450);
     return;
   }
-  if (m.endOn) {
+  else if (m.endOn) {
     m.mainMenu();
     return;
   }
-  
   t.display();
-
+    
   // Display all particles
   for (int i = 0; i < carArray.length; i++) {
     carArray[i].display();

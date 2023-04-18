@@ -30,7 +30,8 @@ class Timer {
     
     else {
       fill(255);
-      rect(-50,-50,1050,850);
+      rectMode(CORNERS);
+      //rect(-50,-50,1050,850);
       fill(0);
       textFont(fontPause);
       text("Pause", 300,500);

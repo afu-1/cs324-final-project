@@ -20,7 +20,7 @@ class Menu {
   
   void mainMenu () {
     //Create font
-    font = createFont("PressStart2P-Regular.ttf", 128);
+    font = createFont("PressStart2P-Regular.ttf", 32);
     if (this.mainOn) {
     for (int i = 0; i < 6; i++) {
       Button b = buttons.get(i);
@@ -32,10 +32,11 @@ class Menu {
   // display previous highscore
   // display controls
   // display buttons for the colors
-    text("word", 250, 400);
+    text("Weclome to FlappyDino", 50, 200);
     }
     else if (this.endOn) {
       fill(255);
+      rectMode(CORNERS);
       rect(-50,-50,1050,850);
       fill(150);
       text("Game Over",250,400);
