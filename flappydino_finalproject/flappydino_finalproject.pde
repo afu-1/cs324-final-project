@@ -45,6 +45,13 @@ PFont score_font;
 float carHeight;
 float carWidth;
 
+// Anthony GUI's
+Button b;
+Timer t;
+Menu m;
+GetInput g;
+
+
 void setup() {
 
   size(1000, 1000);
@@ -113,11 +120,28 @@ void setup() {
     // Put into array
     carArray[i] = c;
   }
+  //Anthony GUI classes
+  m = new Menu();
+  m.createButtons();
+  t = new Timer();
+  g = new GetInput();
 }
 
 void draw() {
   // Lighting and background
   background(0);
+  
+  if (m.mainOn) {
+    m.mainMenu();
+    text(g.inputStr,500,500);
+    return;
+  }
+  if (m.endOn) {
+    m.mainMenu();
+    return;
+  }
+  
+  t.display();
 
   // Display all particles
   for (int i = 0; i < carArray.length; i++) {
@@ -164,11 +188,12 @@ void draw() {
 //tint(color_values.get("red"));
 //image(sprite, 0, 0);
 
-
+/*
 void mousePressed() {
   start = 1;
   //once the mouse is pressed at the beginning (which you had to do anyways because that's the only way the character will start jumping) then this variable changes, indicating the game can begin
 }
+*/
 
 void updateDinoBody()
 {
@@ -215,8 +240,20 @@ void updateDinoBody()
 }
 
 void keyPressed() {
-  if (key == ' ') {
+  if (m.mainOn) {
+    g.keyPressed(); // only get string input when the main screen is on
+  }
+  else if (key == ' ') { // jump command
     up = -1;
+  }
+  else if (key == 'p') { //pause command
+    t.pauseTime();
+  }
+  else if (key == '\n') { //restart command
+    m.endOn = true; // manually end the game
+    // Annie can save the timer and name here
+    println(t.time); //final time
+    println(g.inputStr); //input string
   }
 }
 
@@ -224,5 +261,17 @@ void keyReleased()
 {
   if (key == ' ') {
     up = 0;
+  }
+}
+
+void mousePressed() {
+  for (int i = 0; i < 6; i++){
+    Button b = m.buttons.get(i);
+      if (b.isOver()) {
+        println(i);
+        m.mainOn = false;
+        t.startTime();
+        start = 1;
+      }
   }
 }

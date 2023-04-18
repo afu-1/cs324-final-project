@@ -15,7 +15,6 @@ class Timer {
   
   void display() {
     if (this.started) {//create font
-    
     PFont font;
     PFont fontPause;
     font = createFont("PressStart2P-Regular.ttf", 20);
@@ -52,7 +51,7 @@ class Timer {
   }
   
   void updateTime() {
-    println(this.startTime);
+    //println(this.startTime);
     this.time = (millis() - this.pauseTime - this.startTime)/1000;
   }
   
