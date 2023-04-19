@@ -14,9 +14,11 @@ class DinoBody {
 
   // updates the position of the object
   void up() {
+    translate(0, -10);
     ypos -= 10;
   }
   void down() {
+    translate(0, 10);
     ypos += 10;
   }
   void display() {

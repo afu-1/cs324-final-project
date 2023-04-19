@@ -53,7 +53,7 @@ void setup() {
   dino = loadImage("body.png");
   wing = loadImage("wings.png");
   tail = loadImage("tail.png");
-  player = new Dino(100, 500, 2, 50);
+  player = new Dino(100, 500, 2, 100, 100);
 
   //sets score font and text - Annie
   score_font = createFont("Butterbean.otf", 30);
@@ -94,6 +94,7 @@ void setup() {
   //Anthony GUI classes
   m = new Menu();
   m.createButtons();
+  m.createDinos();
   t = new Timer();
   g = new GetInput();
 }
@@ -142,7 +143,9 @@ void draw() {
     }
   }
   player.FlyForward();
-  //checkHealth(player, );
+  for (int i = 0; i < carArray.length; i++) {
+  checkHealth(player, carArray[i]);
+  }
 }
 
 
@@ -188,9 +191,8 @@ boolean overEnemy(float eneX, float eneY, float eneR, float playerX, float playe
   }
 
   void checkHealth(Dino _player, Car e) {
-    if (overEnemy(e.r.x, e.r.y, e.carWidth, _player.x, _player.y, _player.r, _player.r)) {
+    if (overEnemy(e.r.x, e.r.y, e.carWidth, _player.x, _player.y, _player.w, _player.h)) {
       print("game over");
-      //lives -= 1;
     }
   }
 

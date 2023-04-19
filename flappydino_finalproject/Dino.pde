@@ -7,13 +7,14 @@ class Dino {
   DinoBody critter;
   FrontWing flapper;
   Tail swiper;
-  float x, y, r;
+  float x, y, w, h;
 
   // function initializes the class
-  Dino(float _x, float _y, float jumpSpeed, float _r) {
+  Dino(float _x, float _y, float jumpSpeed, float _w, float _h) {
     x = _x;
     y = _y;
-    r = _r;
+    w = _w;
+    h = _h;
     critter = new DinoBody(x, y, jumpSpeed);
     flapper = new FrontWing(x, y, jumpSpeed);
     swiper = new Tail(x, y, jumpSpeed);

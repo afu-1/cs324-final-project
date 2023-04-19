@@ -17,10 +17,13 @@ class FrontWing {
   void display() {
     image(wing, xpos, ypos);
   }
+  // updates the position of the object
   void up() {
+    translate(0, -10);
     ypos -= 10;
   }
   void down() {
+    translate(0, 10);
     ypos += 10;
   }
 
