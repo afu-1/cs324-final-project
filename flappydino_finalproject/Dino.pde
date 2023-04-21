@@ -2,25 +2,37 @@
 // Author: Allison Protass
 // File Description: defines Dino class, a type of insect that calls on the DinoBody and FrontWing class
 
-// initialize the angle variable
-float angleFly = 0.0;
-
 // composite of both the DinoBody and FrontWing
 class Dino {
   DinoBody critter;
   FrontWing flapper;
   Tail swiper;
+  float x, y, w, h;
 
   // function initializes the class
-  Dino(float xpos, float ypos, float speed) {
-    critter = new DinoBody(xpos, ypos, speed);
-    flapper = new FrontWing(xpos, ypos, speed);
-    swiper = new Tail(xpos, ypos, speed);
+  Dino(float _x, float _y, float jumpSpeed, float _w, float _h) {
+    x = _x;
+    y = _y;
+    w = _w;
+    h = _h;
+    critter = new DinoBody(x, y, jumpSpeed);
+    flapper = new FrontWing(x, y, jumpSpeed);
+    swiper = new Tail(x, y, jumpSpeed);
   }
   void display() {
     critter.display();
     flapper.display();
     swiper.display();
+  }
+  void up() {
+    critter.up();
+    flapper.up();
+    swiper.up();
+  }
+  void down() {
+    critter.down();
+    flapper.down();
+    swiper.down();
   }
   // combined functions to make a simple call for the entire Dino to fly
   void FlyForward() {
@@ -30,5 +42,4 @@ class Dino {
     swiper.bounce(1, 1);
     swiper.display();
   }
-
 }
