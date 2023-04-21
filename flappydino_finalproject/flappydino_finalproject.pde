@@ -250,8 +250,7 @@ void keyPressed() {
     t.pauseTime();
   }
   else if (key == '\n') { //restart command
-    //println(t.time); //final time
-    //println(g.inputStr); //input string
+    // IMPLEMENT THIS AS THE LOSE CONDITION FOR HIT BOX
     
     //saves the score into csv file
     score_sheet.set_score(g.inputStr, t.time);

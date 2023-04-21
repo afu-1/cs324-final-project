@@ -22,6 +22,8 @@ class Menu {
   void mainMenu () {
     //Create font
     font = createFont("PressStart2P-Regular.ttf", 32);
+    
+    //START SCREEN
     if (this.mainOn) {
     for (int i = 0; i < 6; i++) {
       Button b = buttons.get(i);
@@ -30,11 +32,11 @@ class Menu {
     
     fill(155);
     textFont(font);
-  // display previous highscore
-  // display controls
-  // display buttons for the colors
     text("Weclome to FlappyDino", 50, 200);
+    text("Use spacebar to jump", 50, 300);
     }
+    
+    //END SCREEN
     else if (this.endOn) {
       fill(255);
       rectMode(CORNERS);
@@ -43,6 +45,7 @@ class Menu {
       text("Game Over",250,400);
       
     }
+    
     else {
       return;
     }
