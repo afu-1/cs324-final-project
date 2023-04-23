@@ -47,7 +47,7 @@ class Menu {
       textSize(45);
       text("Welcome to FlappyDino", 25, 200);
       textSize(16);
-      text("Use the up and down arrow keys to move",50,300);
+      text("Use the up and down arrow keys to move, and 'm' to mute",50,300);
       text("Avoid all the flying obstacles!",50,350);
       text("Type in your player name and click on any of the colors",50,400);
       } 
