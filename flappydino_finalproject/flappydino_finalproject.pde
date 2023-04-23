@@ -1,3 +1,9 @@
+// For music
+import ddf.minim.*;
+Minim minim;
+AudioPlayer player;
+boolean startUp; // boolean to start music
+
 import java.util.Map; //for hashmap
 
 Dino dinoComp;
@@ -56,6 +62,11 @@ void setup() {
 
   size(1000, 1000);
   frameRate(60);
+  
+  // For music
+  minim = new Minim(this);
+  player = minim.loadFile("shortLofi.mp3");
+  startUp = true;
 
   //set colors of the sprite and load the sprite image - Annie
   colors = loadJSONArray("colors.json");
@@ -130,6 +141,17 @@ void setup() {
 }
 
 void draw() {
+  
+  // For music
+  if (player.position() == player.length()) { // If player has reached the end
+    
+    // Rewind player
+    player.rewind();
+    
+    // Play player
+    player.play();
+  }
+  
   // Lighting and background
   background(0);
   if (m.mainOn) {
@@ -142,6 +164,13 @@ void draw() {
     m.mainMenu();
     return;
   }
+  
+  if (startUp) {
+    player.play();
+    startUp = false;
+  }
+  
+  
   t.display();
     
   // Display all particles
@@ -259,6 +288,25 @@ void keyPressed() {
     m.mainMenu(); //display game over sign
     score_sheet.display(); //displays score sheet on top of main menu
   }
+  
+  // For music
+  // If lowercase m is pressed
+  if (key == 'm' && !startUp) {
+    
+    if (player.isPlaying()) { // If the player is playing
+      // Pause player
+      player.pause();
+    } else if (player.position() == player.length()) { // If player has reached the end
+      // Rewind player
+      player.rewind();
+      // Play player
+      player.play();
+    } else {
+      player.play();
+    }
+  }
+  
+  
 }
 
 void keyReleased()
