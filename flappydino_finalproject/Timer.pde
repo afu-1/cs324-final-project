@@ -22,7 +22,7 @@ class Timer {
     fontPause = createFont("PressStart2P-Regular.ttf", 60);
     // draw the box for the timer
     strokeWeight(4);
-    fill(120);
+    fill(4, 142, 183);
     rectMode(CORNER);
     rect(800,0,200,75);
     if (this.pause == false){

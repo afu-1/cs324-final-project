@@ -12,9 +12,12 @@ PImage wing;
 PImage tail;
 float start = 0;
 
-//classes
+// Classes
 Scores score_sheet;
 Car[] carArray; // array of obstacles
+Ground ground; // ground
+Cloud[] cloudArray; // array of clouds
+Tree tree; // tree
 
 //global objects
 JSONArray colors;
@@ -24,6 +27,7 @@ PImage sprite;
 Table scores;
 PFont score_font;
 
+// Jose's global variables
 float carHeight;
 float carWidth;
 
@@ -38,7 +42,7 @@ void setup() {
 
   size(1000, 1000);
   frameRate(60);
-  
+
   // For music
   minim = new Minim(this);
   player = minim.loadFile("lofi.mp3");
@@ -59,7 +63,7 @@ void setup() {
 
     color_values.put(key_input, color(int(red), int(green), int(blue)));
   }
-  
+
   dino = loadImage("body.png");
   wing = loadImage("wings.png");
   tail = loadImage("tail.png");
@@ -83,8 +87,43 @@ void setup() {
   carWidth = width / 10;
   carHeight = height / 10;
 
+  // Ground
+  color groundColor = color(0, 255, 0);
+  float groundHeight = 100;
+  float groundWidth = width;
+  ground = new Ground(groundColor, groundWidth, groundHeight);
+
+  // Tree
+  float tx = width; // tree will come in from the right
+  float ty = height - groundHeight - carHeight;
+  float tvx = -1;
+  float tvy = 0;
+  float tscale = 1;
+  color leafColor = color(69, 155, 73);
+  color trunkColor = color(133, 76, 0);
+  tree = new Tree(tx, ty, tvx, tvy, tscale, carWidth, carHeight, leafColor, trunkColor);
+
+  // Clouds
+  int numOfClouds = 3; // the number of clouds at a time
+  cloudArray = new Cloud[numOfClouds];
+
+  // Clouds will come in from the right
+  for (int i = 0; i < cloudArray.length; i++) {
+
+    // Create clouds (spawn on right side)
+    float x = width;
+    float y = random(carHeight/2, height/2 - carHeight/2 + 1);
+    float vx = -random(0.25, 0.5);
+    float vy = 0;
+    float scale = 0.5;
+    Cloud cl = new Cloud(x, y, vx, vy, scale, carWidth, carHeight);
+
+    // Put into array
+    cloudArray[i] = cl;
+  }
+
   // Initalize car array
-  int numOfCars = 3; // the number of obstacles at a time
+  int numOfCars = 6; // the number of obstacles at a time
   carArray = new Car[numOfCars];
 
   // Obstacles will come in from the right
@@ -110,38 +149,59 @@ void setup() {
 }
 
 void draw() {
-  
+
   // For music
   if (player.position() == player.length()) { // If player has reached the end
-    
+
     // Rewind player
     player.rewind();
-    
+
     // Play player
     player.play();
   }
-  
+
   // Lighting and background
-  background(33);
+  background(44, 198, 194);
   if (m.mainOn) {
     m.mainMenu();
     textSize(16);
-    text("Please enter a character name: " + g.inputStr,50,450);
+    text("Please enter a character name: " + g.inputStr, 50, 450);
     return;
-  }
-  else if (m.endOn) {
+  } else if (m.endOn) {
     m.mainMenu();
     return;
   }
-  
+
   if (startUp) {
     player.play();
     startUp = false;
   }
-  
-  
+
+
   t.display();
-    
+
+  // Display ground
+  ground.display();
+
+  // Display tree
+  tree.display();
+
+  // Move tree
+  tree.move();
+
+  // Respawn tree
+  if (tree.isOutOfBounds()) {
+
+    // New parameters
+    float groundHeight = 100;
+    float tx = width; // tree will come in from the right
+    float ty = height - groundHeight - carHeight;
+    float tvx = -1;
+    float tvy = 0;
+    float tscale = 1;
+    tree.respawn(tx, ty, tvx, tvy, tscale);
+  }
+
   // Display all particles
   for (int i = 0; i < carArray.length; i++) {
     carArray[i].display();
@@ -169,6 +229,36 @@ void draw() {
       carArray[i].respawn(x, y, vx, vy, scale);
     }
   }
+
+  // Display all clouds
+  for (int i = 0; i < cloudArray.length; i++) {
+    cloudArray[i].display();
+  }
+
+  // Move all clouds
+  for (int i = 0; i < cloudArray.length; i++) {
+    cloudArray[i].move();
+  }
+
+  // Respawn clouds that have gone off-screen
+  for (int i = 0; i < cloudArray.length; i++) {
+
+    // Check for clouds that have gone out of bounds
+    if (cloudArray[i].isOutOfBounds()) {
+
+      // New parameters
+      float x = width;
+      float y = random(carHeight/2, height/2 - carHeight/2 + 1);
+      float vx = -random(0.25, 0.5);
+      float vy = 0;
+      float scale = 0.5;
+
+      // Respawn the cloud
+      cloudArray[i].respawn(x, y, vx, vy, scale);
+    }
+  }
+
+
   dinoComp.FlyForward();
   for (int i = 0; i < carArray.length; i++) {
     checkHealth(dinoComp, carArray[i]);
@@ -181,35 +271,35 @@ void draw() {
 
 /*
 void mousePressed() {
-  */
-  boolean overEnemy(float eneX, float eneY, float eneR, float playerX, float playerY, float playerH, float playerW) {
-    float testX = eneX;
-    float testY = eneY;
+ */
+boolean overEnemy(float eneX, float eneY, float eneR, float playerX, float playerY, float playerH, float playerW) {
+  float testX = eneX;
+  float testY = eneY;
 
-    // which edge is closest?
-    if (eneX < playerX)         testX = playerX;      // test left edge
-    else if (eneX > playerX+playerW) testX = playerX+playerW;   // right edge
-    if (eneY < playerY)         testY = playerY;      // top edge
-    else if (eneY > playerY+playerH) testY = playerY+playerH;   // bottom edge
+  // which edge is closest?
+  if (eneX < playerX)         testX = playerX;      // test left edge
+  else if (eneX > playerX+playerW) testX = playerX+playerW;   // right edge
+  if (eneY < playerY)         testY = playerY;      // top edge
+  else if (eneY > playerY+playerH) testY = playerY+playerH;   // bottom edge
 
-    // get distance from closest edges
-    float distX = eneX-testX;
-    float distY = eneY-testY;
-    float distance = sqrt( (distX*distX) + (distY*distY) );
+  // get distance from closest edges
+  float distX = eneX-testX;
+  float distY = eneY-testY;
+  float distance = sqrt( (distX*distX) + (distY*distY) );
 
-    // if the distance is less than the radius, collision!
-    if (distance <= eneR) {
-      return true;
-    }
-    return false;
+  // if the distance is less than the radius, collision!
+  if (distance <= eneR) {
+    return true;
   }
-  
-  void checkHealth(Dino _player, Car e) {
-    if (overEnemy(e.r.x, e.r.y, e.carWidth, _player.x, _player.y, _player.w, _player.h)) {
-      print("game over");
-      //lives -= 1;
-    }
+  return false;
+}
+
+void checkHealth(Dino _player, Car e) {
+  if (overEnemy(e.r.x, e.r.y, e.carWidth, _player.x, _player.y, _player.w, _player.h)) {
+    print("game over");
+    //lives -= 1;
   }
+}
 
 //not sure if you meant to delete this or not
 
@@ -243,29 +333,29 @@ void mousePressed() {
 void keyPressed() {
   if (m.mainOn) {
     g.keyPressed(); // only get string input when the main screen is on
-  }
-  else if (key == CODED) {
+  } else if (key == CODED) {
     if (keyCode == UP) {
       dinoComp.up();
     }
     if (keyCode == DOWN) {
       dinoComp.down();
     } else if (key == 'p') { //pause command t.pauseTime() sets t.pause =  true 
-    t.pauseTime();
-  } } else if (key == '\n') { //restart command
+      t.pauseTime();
+    }
+  } else if (key == '\n') { //restart command
     // IMPLEMENT THIS AS THE LOSE CONDITION FOR HIT BOX
-    
+
     //saves the score into csv file
     score_sheet.set_score(g.inputStr, t.time);
     m.endOn = true; // manually end the game
     m.mainMenu(); //display game over sign
     score_sheet.display(); //displays score sheet on top of main menu
   }
-  
+
   // For music
   // If lowercase m is pressed
   if (key == 'm' && !startUp) {
-    
+
     if (player.isPlaying()) { // If the player is playing
       // Pause player
       player.pause();
@@ -281,13 +371,13 @@ void keyPressed() {
 }
 
 void mousePressed() {
-  for (int i = 0; i < 6; i++){
+  for (int i = 0; i < 6; i++) {
     Button b = m.buttons.get(i);
-      if (b.isOver()) {
-        println(i);
-        m.mainOn = false;
-        t.startTime();
-        start = 1;
-      }
+    if (b.isOver()) {
+      println(i);
+      m.mainOn = false;
+      t.startTime();
+      start = 1;
+    }
   }
 }
