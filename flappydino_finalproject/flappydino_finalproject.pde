@@ -12,30 +12,6 @@ PImage wing;
 PImage tail;
 float start = 0;
 
-class SideJumper
-{
-  PImage image;
-  PVector position;
-  float direction;
-  PVector velocity;
-  float jumpSpeed;
-  float walkSpeed;
-}
-
-// GLOBAL VARIABLES
-
-SideJumper dinoBody;
-float left;
-float right;
-float up;
-float down;
-
-// half a pixel per frame gravity.
-float gravity = .5;
-
-// Y coordinate of ground for collision
-float ground = 700;
-
 //classes
 Scores score_sheet;
 Car[] carArray; // array of obstacles
@@ -65,7 +41,7 @@ void setup() {
   
   // For music
   minim = new Minim(this);
-  player = minim.loadFile("shortLofi.mp3");
+  player = minim.loadFile("lofi.mp3");
   startUp = true;
 
   //set colors of the sprite and load the sprite image - Annie
@@ -87,14 +63,7 @@ void setup() {
   dino = loadImage("body.png");
   wing = loadImage("wings.png");
   tail = loadImage("tail.png");
-  dinoComp = new Dino(100, 500, 2,5,5);
-  dinoBody = new SideJumper();
-  dinoBody.image = loadImage("body.png");
-  dinoBody.position = new PVector(400, ground);
-  dinoBody.direction = 1;
-  dinoBody.velocity = new PVector(0, 0);
-  dinoBody.jumpSpeed = 10;
-  dinoBody.walkSpeed = 4;
+  dinoComp = new Dino(100, 500, 2, 100, 100);
 
   //sets score font and text - Annie
   score_font = createFont("Butterbean.otf", 30);
@@ -153,7 +122,7 @@ void draw() {
   }
   
   // Lighting and background
-  background(0);
+  background(33);
   if (m.mainOn) {
     m.mainMenu();
     textSize(16);
@@ -200,19 +169,11 @@ void draw() {
       carArray[i].respawn(x, y, vx, vy, scale);
     }
   }
-  if (start == 1) {
-    updateDinoBody();
-    dinoComp.FlyForward();
+  dinoComp.FlyForward();
+  for (int i = 0; i < carArray.length; i++) {
+    checkHealth(dinoComp, carArray[i]);
   }
 }
-
-//sets scores using score class - Annie (will remove this when input data is available)
-//for (int i = 0; i < 5; i++){
-//  score_sheet.set_score(str(i), i * 300);
-//}
-
-//displays the scores sheet (feel free to comment out)- Annie
-//score_sheet.display();
 
 //reference for color values
 //tint(color_values.get("red"));
@@ -220,66 +181,78 @@ void draw() {
 
 /*
 void mousePressed() {
-  start = 1;
-  //once the mouse is pressed at the beginning (which you had to do anyways because that's the only way the character will start jumping) then this variable changes, indicating the game can begin
-}
-*/
+  */
+  boolean overEnemy(float eneX, float eneY, float eneR, float playerX, float playerY, float playerH, float playerW) {
+    float testX = eneX;
+    float testY = eneY;
 
-void updateDinoBody()
-{
-  // Only apply gravity if above ground (since y positive is down we use < ground)
-  if (dinoBody.position.y < ground)
-  {
-    dinoBody.velocity.y += gravity;
-  } else
-  {
-    dinoBody.velocity.y = 0;
+    // which edge is closest?
+    if (eneX < playerX)         testX = playerX;      // test left edge
+    else if (eneX > playerX+playerW) testX = playerX+playerW;   // right edge
+    if (eneY < playerY)         testY = playerY;      // top edge
+    else if (eneY > playerY+playerH) testY = playerY+playerH;   // bottom edge
+
+    // get distance from closest edges
+    float distX = eneX-testX;
+    float distY = eneY-testY;
+    float distance = sqrt( (distX*distX) + (distY*distY) );
+
+    // if the distance is less than the radius, collision!
+    if (distance <= eneR) {
+      return true;
+    }
+    return false;
+  }
+  
+  void checkHealth(Dino _player, Car e) {
+    if (overEnemy(e.r.x, e.r.y, e.carWidth, _player.x, _player.y, _player.w, _player.h)) {
+      print("game over");
+      //lives -= 1;
+    }
   }
 
-  // If on the ground and "jump" key is pressed set my upward velocity to the jump speed!
-  if (dinoBody.position.y >= ground && up != 0)
-  {
-    dinoBody.velocity.y = -dinoBody.jumpSpeed;
-  }
+//not sure if you meant to delete this or not
 
-  // We check the nextPosition before actually setting the position so we can
-  // not move the dinoBody if he's colliding.
-  PVector nextPosition = new PVector(dinoBody.position.x, dinoBody.position.y);
-  nextPosition.add(dinoBody.velocity);
+//  // We check the nextPosition before actually setting the position so we can
+//  // not move the dinoBody if he's colliding.
+//  PVector nextPosition = new PVector(dinoBody.position.x, dinoBody.position.y);
+//  nextPosition.add(dinoBody.velocity);
 
-  // Check collision with edge of screen and don't move if at the edge
-  float offset = 0;
-  if (nextPosition.x > offset && nextPosition.x < (width - offset))
-  {
-    dinoBody.position.x = nextPosition.x;
-  }
-  if (nextPosition.y > offset && nextPosition.y < (height - offset))
-  {
-    dinoBody.position.y = nextPosition.y;
-  }
+//  // Check collision with edge of screen and don't move if at the edge
+//  float offset = 0;
+//  if (nextPosition.x > offset && nextPosition.x < (width - offset))
+//  {
+//    dinoBody.position.x = nextPosition.x;
+//  }
+//  if (nextPosition.y > offset && nextPosition.y < (height - offset))
+//  {
+//    dinoBody.position.y = nextPosition.y;
+//  }
 
-  pushMatrix();
+//  pushMatrix();
 
-  translate(dinoBody.position.x, dinoBody.position.y);
+//  translate(dinoBody.position.x, dinoBody.position.y);
 
 
-  imageMode(CENTER);
-  image(dinoBody.image, 0, 0);
+//  imageMode(CENTER);
+//  image(dinoBody.image, 0, 0);
 
-  popMatrix();
-}
+//  popMatrix();
+//}
 
 void keyPressed() {
   if (m.mainOn) {
     g.keyPressed(); // only get string input when the main screen is on
   }
-  else if (key == ' ') { // jump command
-    up = -1;
-  }
-  else if (key == 'p') { //pause command t.pauseTime() sets t.pause =  true 
+  else if (key == CODED) {
+    if (keyCode == UP) {
+      dinoComp.up();
+    }
+    if (keyCode == DOWN) {
+      dinoComp.down();
+    } else if (key == 'p') { //pause command t.pauseTime() sets t.pause =  true 
     t.pauseTime();
-  }
-  else if (key == '\n') { //restart command
+  } } else if (key == '\n') { //restart command
     // IMPLEMENT THIS AS THE LOSE CONDITION FOR HIT BOX
     
     //saves the score into csv file
@@ -304,15 +277,6 @@ void keyPressed() {
     } else {
       player.play();
     }
-  }
-  
-  
-}
-
-void keyReleased()
-{
-  if (key == ' ') {
-    up = 0;
   }
 }
 

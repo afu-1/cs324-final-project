@@ -44,14 +44,21 @@ class Menu {
       // display previous highscore
       // display controls
       // display buttons for the colors
-      textSize(32);
-      text("Welcome to FlappyDino", 150, 200);
-    } else if (this.endOn) {
+      textSize(45);
+      text("Welcome to FlappyDino", 25, 200);
+      textSize(16);
+      text("Use the up and down arrow keys to move",50,300);
+      text("Avoid all the flying obstacles!",50,350);
+      text("Type in your player name and click on any of the colors",50,400);
+      } 
+      else if (this.endOn) {
       fill(255);
       rectMode(CORNERS);
       rect(-50, -50, 1050, 850);
       fill(150);
-      text("Game Over", 250, 400);
+      textSize(32);
+      text("Game Over", 365, 400);
+      textSize(16);
     } else {
       return;
     }
