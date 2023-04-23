@@ -161,7 +161,7 @@ void draw() {
   }
 
   // Lighting and background
-  background(33);
+  background(44, 198, 194);
   if (m.mainOn) {
     m.mainMenu();
     textSize(16);
