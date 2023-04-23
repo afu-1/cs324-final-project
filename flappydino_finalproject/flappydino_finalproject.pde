@@ -65,7 +65,7 @@ void setup() {
   
   // For music
   minim = new Minim(this);
-  player = minim.loadFile("shortLofi.mp3");
+  player = minim.loadFile("lofi.mp3");
   startUp = true;
 
   //set colors of the sprite and load the sprite image - Annie
@@ -153,7 +153,7 @@ void draw() {
   }
   
   // Lighting and background
-  background(0);
+  background(33);
   if (m.mainOn) {
     m.mainMenu();
     textSize(16);
