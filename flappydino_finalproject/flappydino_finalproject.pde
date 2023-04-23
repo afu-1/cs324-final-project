@@ -131,17 +131,19 @@ void setup() {
 
 void draw() {
   // Lighting and background
-  background(0);
+  background(30);
   if (m.mainOn) {
     m.mainMenu();
     textSize(16);
     text("Please enter a character name: " + g.inputStr,50,450);
     return;
   }
+  
   else if (m.endOn) {
     m.mainMenu();
     return;
   }
+  
   t.display();
     
   // Display all particles

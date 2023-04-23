@@ -44,9 +44,11 @@ class Menu {
       // display previous highscore
       // display controls
       // display buttons for the colors
-      text("word", 250, 400);
+      textSize(32);
+      text("Welcome to FlappyDino", 150, 200);
     } else if (this.endOn) {
       fill(255);
+      rectMode(CORNERS);
       rect(-50, -50, 1050, 850);
       fill(150);
       text("Game Over", 250, 400);
@@ -56,12 +58,12 @@ class Menu {
   }
 
   void createButtons() {
-    b1 = new Button(57, 500, 100, 200, 38, 250, 38);
-    b2 = new Button(214, 500, 100, 200, 38, 250, 38);
-    b3 = new Button(371, 500, 100, 200, 38, 250, 38);
-    b4 = new Button(528, 500, 100, 200, 38, 250, 38);
-    b5 = new Button(685, 500, 100, 200, 38, 250, 38);
-    b6 = new Button(842, 500, 100, 200, 38, 250, 38);
+    b1 = new Button(57, 500, 100, 200, 255, 89, 94);
+    b2 = new Button(214, 500, 100, 200, 255, 146, 76);
+    b3 = new Button(371, 500, 100, 200, 255, 202, 58);
+    b4 = new Button(528, 500, 100, 200, 82, 166, 117);
+    b5 = new Button(685, 500, 100, 200, 25, 130, 196);
+    b6 = new Button(842, 500, 100, 200, 66, 103, 172);
     buttons.add(b1);
     buttons.add(b2);
     buttons.add(b3);

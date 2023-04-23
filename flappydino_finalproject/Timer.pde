@@ -22,9 +22,9 @@ class Timer {
     fontPause = createFont("PressStart2P-Regular.ttf", 60);
     // draw the box for the timer
     strokeWeight(4);
-    fill(200);
+    fill(120);
+    rectMode(CORNER);
     rect(800,0,200,75);
-    
     if (this.pause == false){
       updateTime();
     }
@@ -41,7 +41,7 @@ class Timer {
     }
     
     
-    fill(155);
+    fill(200);
     textFont(font);
     text( "Time: " + str(this.time), 810,50);
   }
