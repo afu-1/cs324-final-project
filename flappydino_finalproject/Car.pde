@@ -30,7 +30,11 @@ class Car {
     // Displays the particle.
     
     rectMode(CENTER);
+    stroke(209, 53, 53);
+    fill(209, 53, 53);
     rect(this.r.x, this.r.y, this.carWidth * this.scale, this.carHeight * this.scale);
+    
+    rectMode(CORNER);
     
   }
   
