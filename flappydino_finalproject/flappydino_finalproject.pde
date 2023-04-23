@@ -76,7 +76,7 @@ void setup() {
   dino = loadImage("body.png");
   wing = loadImage("wings.png");
   tail = loadImage("tail.png");
-  dinoComp = new Dino(100, 500, 2);
+  dinoComp = new Dino(100, 500, 2,5,5);
   dinoBody = new SideJumper();
   dinoBody.image = loadImage("body.png");
   dinoBody.position = new PVector(400, ground);
@@ -124,6 +124,7 @@ void setup() {
   //Anthony GUI classes
   m = new Menu();
   m.createButtons();
+  m.createDinos();
   t = new Timer();
   g = new GetInput();
 }
