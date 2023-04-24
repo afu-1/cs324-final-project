@@ -75,9 +75,13 @@ class Dino {
     return false;
   }
 
-  void checkHealth(Car e) {
+  boolean checkHealth(Car e) {
     if (overEnemy(e.r.x, e.r.y, e.carWidth, critter.xpos, critter.ypos, dino.width-190, dino.height-190)) {
       print("game over");
+      return true;
+    }
+    else {
+      return false;
     }
   }
   // combined functions to make a simple call for the entire Dino to fly

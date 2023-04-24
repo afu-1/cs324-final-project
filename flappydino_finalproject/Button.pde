@@ -22,6 +22,7 @@ class Button {
   boolean isOver() {
     if ((mouseX >= this.org.x) && (mouseX <= (this.org.x + this.lenx))){
       if ((mouseY >= this.org.y) && (mouseY <= (this.org.y + this.leny))){
+        println("isOver");
         return true;
       }
     }

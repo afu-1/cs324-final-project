@@ -167,8 +167,9 @@ void draw() {
     textSize(16);
     text("Please enter a character name: " + g.inputStr, 50, 450);
     return;
-  } else if (m.endOn) {
-    m.mainMenu();
+  } 
+  else if (m.endOn) {
+    
     return;
   }
 
@@ -261,7 +262,14 @@ void draw() {
 
   dinoComp.FlyForward();
   for (int i = 0; i < carArray.length; i++) {
-    dinoComp.checkHealth(carArray[i]);
+    m.endOn = dinoComp.checkHealth(carArray[i]);
+    if (m.endOn){
+      score_sheet.set_score(g.inputStr, t.time);
+      //m.endOn = true; // manually end the game
+      m.mainMenu(); //display game over sign
+      score_sheet.display(); //displays score sheet on top of main menu
+      return ;
+    }
   }
 }
 
