@@ -325,6 +325,7 @@ void mousePressed() {
   for (int i = 0; i < 6; i++) {
     Button b = m.buttons.get(i);
     if (b.isOver()) {
+      //println("clicked");
       dinoComp = new Dino(100, 500, 2, b.filler);
       m.mainOn = false;
       t.startTime();
