@@ -1,4 +1,4 @@
-//Alli? Ally? (idk how to spell sorry)
+//Ally
 class DinoBody {
   float xpos; // provides the x coordinate position
   float ypos; // provides the y coordinate position

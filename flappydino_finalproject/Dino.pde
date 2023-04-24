@@ -1,8 +1,4 @@
-// Group #: 11
-// Author: Allison Protass
-// File Description: defines Dino class, a type of insect that calls on the DinoBody and FrontWing class
-
-
+//Ally
 
 // composite of both the DinoBody and FrontWing
 class Dino {

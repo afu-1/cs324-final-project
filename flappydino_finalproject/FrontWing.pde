@@ -1,4 +1,4 @@
-//Ally? Alli?
+//Ally
 class FrontWing {
   float xpos; // provides the x coordinate position
   float ypos; // provides the y coordinate position
