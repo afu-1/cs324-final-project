@@ -65,12 +65,12 @@ class Menu {
   }
 
   void createButtons() {
-    b1 = new Button(57, 500, 100, 200, 255, 89, 94);
-    b2 = new Button(214, 500, 100, 200, 255, 146, 76);
-    b3 = new Button(371, 500, 100, 200, 255, 202, 58);
-    b4 = new Button(528, 500, 100, 200, 82, 166, 117);
-    b5 = new Button(685, 500, 100, 200, 25, 130, 196);
-    b6 = new Button(842, 500, 100, 200, 66, 103, 172);
+    b1 = new Button(97, 600, 100, 200, 255, 89, 94, 0);
+    b2 = new Button(254, 600, 100, 200, 255, 146, 76, 1);
+    b3 = new Button(411, 600, 100, 200, 255, 202, 58, 2);
+    b4 = new Button(568, 600, 100, 200, 82, 166, 117, 3);
+    b5 = new Button(725, 600, 100, 200, 25, 130, 196, 4);
+    b6 = new Button(882, 600, 100, 200, 66, 103, 172, 5);
     buttons.add(b1);
     buttons.add(b2);
     buttons.add(b3);
@@ -80,12 +80,12 @@ class Menu {
   }
 
   void createDinos() {
-    b1Dino = new Dino(10, 500, 0, 0, 0);
-    b2Dino = new Dino(167, 500, 0, 0, 0);
-    b3Dino = new Dino(324, 500, 0, 0, 0);
-    b4Dino = new Dino(481, 500, 0, 0, 0);
-    b5Dino = new Dino(638, 500, 0, 0, 0);
-    b6Dino = new Dino(795, 500, 0, 0, 0);
+    b1Dino = new Dino(100, 600, 0, 0);
+    b2Dino = new Dino(257, 600, 0, 1);
+    b3Dino = new Dino(414, 600, 0, 2);
+    b4Dino = new Dino(571, 600, 0, 3);
+    b5Dino = new Dino(728, 600, 0, 4);
+    b6Dino = new Dino(885, 600, 0, 5);
     dinos.add(b1Dino);
     dinos.add(b2Dino);
     dinos.add(b3Dino);

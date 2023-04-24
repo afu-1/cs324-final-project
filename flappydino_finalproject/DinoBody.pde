@@ -22,6 +22,8 @@ class DinoBody {
     ypos += 10;
   }
   void display() {
+    //imageMode(CENTER);
+    //rectMode(CENTER);
     image(dino, xpos, ypos);
   }
 }

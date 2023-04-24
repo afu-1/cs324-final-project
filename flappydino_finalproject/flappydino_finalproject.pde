@@ -42,7 +42,8 @@ void setup() {
 
   size(1000, 1000);
   frameRate(60);
-
+  imageMode(CENTER);
+  rectMode(CENTER);
   // For music
   minim = new Minim(this);
   player = minim.loadFile("lofi.mp3");
@@ -67,7 +68,6 @@ void setup() {
   dino = loadImage("body.png");
   wing = loadImage("wings.png");
   tail = loadImage("tail.png");
-  dinoComp = new Dino(100, 500, 2, 100, 100);
 
   //sets score font and text - Annie
   score_font = createFont("Butterbean.otf", 30);
@@ -261,74 +261,17 @@ void draw() {
 
   dinoComp.FlyForward();
   for (int i = 0; i < carArray.length; i++) {
-    checkHealth(dinoComp, carArray[i]);
+    dinoComp.checkHealth(carArray[i]);
   }
 }
 
 //reference for color values
-//tint(color_values.get("red"));
 //image(sprite, 0, 0);
 
 /*
 void mousePressed() {
  */
-boolean overEnemy(float eneX, float eneY, float eneR, float playerX, float playerY, float playerH, float playerW) {
-  float testX = eneX;
-  float testY = eneY;
 
-  // which edge is closest?
-  if (eneX < playerX)         testX = playerX;      // test left edge
-  else if (eneX > playerX+playerW) testX = playerX+playerW;   // right edge
-  if (eneY < playerY)         testY = playerY;      // top edge
-  else if (eneY > playerY+playerH) testY = playerY+playerH;   // bottom edge
-
-  // get distance from closest edges
-  float distX = eneX-testX;
-  float distY = eneY-testY;
-  float distance = sqrt( (distX*distX) + (distY*distY) );
-
-  // if the distance is less than the radius, collision!
-  if (distance <= eneR) {
-    return true;
-  }
-  return false;
-}
-
-void checkHealth(Dino _player, Car e) {
-  if (overEnemy(e.r.x, e.r.y, e.carWidth, _player.x, _player.y, _player.w, _player.h)) {
-    print("game over");
-    //lives -= 1;
-  }
-}
-
-//not sure if you meant to delete this or not
-
-//  // We check the nextPosition before actually setting the position so we can
-//  // not move the dinoBody if he's colliding.
-//  PVector nextPosition = new PVector(dinoBody.position.x, dinoBody.position.y);
-//  nextPosition.add(dinoBody.velocity);
-
-//  // Check collision with edge of screen and don't move if at the edge
-//  float offset = 0;
-//  if (nextPosition.x > offset && nextPosition.x < (width - offset))
-//  {
-//    dinoBody.position.x = nextPosition.x;
-//  }
-//  if (nextPosition.y > offset && nextPosition.y < (height - offset))
-//  {
-//    dinoBody.position.y = nextPosition.y;
-//  }
-
-//  pushMatrix();
-
-//  translate(dinoBody.position.x, dinoBody.position.y);
-
-
-//  imageMode(CENTER);
-//  image(dinoBody.image, 0, 0);
-
-//  popMatrix();
-//}
 
 void keyPressed() {
   if (m.mainOn) {
@@ -339,7 +282,7 @@ void keyPressed() {
     }
     if (keyCode == DOWN) {
       dinoComp.down();
-    } else if (key == 'p') { //pause command t.pauseTime() sets t.pause =  true 
+    } else if (key == 'p') { //pause command t.pauseTime() sets t.pause =  true
       t.pauseTime();
     }
   } else if (key == '\n') { //restart command
@@ -374,7 +317,7 @@ void mousePressed() {
   for (int i = 0; i < 6; i++) {
     Button b = m.buttons.get(i);
     if (b.isOver()) {
-      println(i);
+      dinoComp = new Dino(100, 500, 2, b.filler);
       m.mainOn = false;
       t.startTime();
       start = 1;

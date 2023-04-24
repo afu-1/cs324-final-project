@@ -4,12 +4,14 @@ class Button {
   int lenx;
   int leny;
   color col;
+  int filler;
   
-  Button (int x, int y, int lengthx, int lengthy, int c1, int c2, int c3) {
+  Button (int x, int y, int lengthx, int lengthy, int c1, int c2, int c3, int filler) {
     this.org = new PVector(x,y);
     this.lenx = lengthx;
     this.leny = lengthy;
     this.col = color(c1,c2,c3);
+    this.filler = filler;
   }
   
   void display() {
