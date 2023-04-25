@@ -6,6 +6,7 @@ class Menu {
   Button b4;
   Button b5;
   Button b6;
+  Button b7;
   Dino b1Dino;
   Dino b2Dino;
   Dino b3Dino; 
@@ -53,11 +54,19 @@ class Menu {
       } 
       else if (this.endOn) {
       fill(255);
-      rectMode(CORNERS);
-      rect(-50, -50, 1050, 850);
+      rectMode(CORNER);
+      rect(-50, -50, 1100, 1100);
       fill(150);
       textSize(32);
       text("Game Over", 365, 400);
+      textSize(16);
+      //fill(0);
+      //rect(500,500,200,200);
+      //text("Exit", 800, 85);
+      b7.display();
+      fill(150);
+      textSize(32);
+      text("Exit", 840, 70);
       textSize(16);
     } else {
       return;
@@ -71,12 +80,14 @@ class Menu {
     b4 = new Button(568, 600, 100, 200, 82, 166, 117, 3);
     b5 = new Button(725, 600, 100, 200, 25, 130, 196, 4);
     b6 = new Button(882, 600, 100, 200, 66, 103, 172, 5);
+    b7 = new Button(800,0,198,100,250,250,250,250);
     buttons.add(b1);
     buttons.add(b2);
     buttons.add(b3);
     buttons.add(b4);
     buttons.add(b5);
     buttons.add(b6);
+    buttons.add(b7);
   }
 
   void createDinos() {

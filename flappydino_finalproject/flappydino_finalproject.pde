@@ -332,4 +332,10 @@ void mousePressed() {
       start = 1;
     }
   }
+  Button b = m.buttons.get(6);
+  if (m.endOn){
+    if ((mouseX >= 800) && (mouseY <= 100)){
+      exit();
+  }
+}
 }
