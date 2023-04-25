@@ -21,4 +21,4 @@ How to play:
 1) Once you have opened the Processing file, enter a name for your dinosaur.
 2) Select a dinosaur color by clicking one of the super cute dinosaurs. 
 3) Once you have selected a dinosaur, the gameplay will start right away. Use the up arrow key to move your dinosaur up, and the down arrow key to move your dinosaur down. Avoid the red projectiles.
-4) If you touch a red projectile, the game will end. You will see your score and other previous scores. To restart the game, close the game window and repeat step 1).
+4) If you touch a red projectile, the game will end. You will see your score and other previous scores. To restart the game, close the game window by clicking the "Exit" button in the game over screen, then repeat step 1).
